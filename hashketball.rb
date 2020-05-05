@@ -126,4 +126,133 @@ def game_hash
   }
 end
 
-# Write code here
+def player_stats(player_name)
+  game_hash.each_pair do |(team, info)|
+    info[:players].count do |player|
+      if player[:player_name] == player_name
+        return player
+      end
+    end
+  end
+end
+
+def num_points_scored(player_name)
+  stats = player_stats(player_name)
+  stats[:points]
+end
+
+def shoe_size(player_name)
+  stats = player_stats(player_name)
+  stats[:shoe]
+end
+
+def team_stats(team_name)
+  game_hash.each_pair do |(team, info)|
+    if info[:team_name] == team_name
+      return info
+    end
+  end
+end
+
+def team_colors(team_name)
+  stats = team_stats(team_name)
+  stats[:colors]
+end
+
+def team_names
+  name_array = []
+  game_hash.each_pair do |(team, info)|
+    name_array.push(info[:team_name])
+  end
+  name_array
+end
+
+def player_numbers(team_name)
+  number_hash = []
+  stats = team_stats(team_name)
+  stats[:players].count do |player|
+    number_hash.push(player[:number])
+  end
+  number_hash
+end
+
+def big_shoe_rebounds
+  max_shoe_size= 0
+  associated_rebounds = 0
+  game_hash.each_pair do |(team, info)|
+    info[:players].count do |player|
+      if player[:shoe] > max_shoe_size
+        max_shoe_size = player[:shoe]
+        associated_rebounds = player[:rebounds]
+      end
+    end
+    associated_rebounds
+  end
+  associated_rebounds
+end
+
+def most_points_scored
+  top_score= 0
+  mvp = ""
+  game_hash.each_pair do |(team, info)|
+    info[:players].count do |player|
+      if player[:points] > top_score
+        top_score = player[:points]
+        mvp = player[:player_name]
+      end
+    end
+    mvp
+  end
+  mvp
+end
+
+def winning_team
+  score_hash = game_hash.reduce({}) do |memo, (team, info)|
+    if memo[info[:team_name]] === nil
+      memo[info[:team_name]]
+    end
+    points = []
+    info[:players].count do |player|
+      points.push(player[:points])
+    end
+    memo[info[:team_name]] = points.sum
+    memo
+  end
+  winner = score_hash.max_by{|k,v| v}
+  puts "The #{winner[0]} won with #{winner[1]} points"
+  winner
+end
+
+def player_with_longest_name
+  name_length = 0
+  long_name = ""
+  game_hash.each_pair do |(team, info)|
+    info[:players].count do |player|
+      if player[:player_name].length > name_length
+        name_length = player[:player_name].length
+        long_name = player[:player_name]
+      end
+    end
+    long_name
+  end
+  long_name
+end
+
+def long_name_steals_a_ton?
+  most_steals = 0
+  top_thief = ""
+  game_hash.each_pair do |(team, info)|
+    info[:players].count do |player|
+      if player[:steals] > most_steals
+        most_steals = player[:steals]
+        top_thief = player[:player_name]
+      end
+    end
+    top_thief
+  end
+  if top_thief == player_with_longest_name
+    return true
+  else
+    return false
+  end
+end
