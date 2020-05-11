@@ -126,4 +126,55 @@ def game_hash
   }
 end
 
-# Write code here
+def players_data
+  home_players = game_hash[:home][:players]
+  away_players = game_hash[:away][:players]
+  total_players = home_players + away_players
+  total_players
+end
+
+def num_points_scored(test_name)
+  find_player = players_data.find {|player| player.fetch(:player_name) == test_name}
+  find_player[:points]
+end 
+
+def shoe_size(test_name)
+find_player = players_data.find {|player| player.fetch(:player_name) == test_name}
+find_player[:shoe]
+end
+
+def team_colors(team_name)
+  if team_name == game_hash[:home][:team_name].to_s
+    return game_hash[:home][:colors]
+  end
+
+  if team_name == game_hash[:away][:team_name].to_s
+    return game_hash[:away][:colors]
+  end
+end
+
+def team_stats 
+ home_team = game_hash.values_at(:home)
+  away_team = game_hash.values_at(:away)
+  total_team_stats = home_team + away_team
+  total_team_stats
+end 
+
+def team_names
+game_hash.map {|team, attributes| attributes[:team_name]}
+end
+
+def player_numbers(team_name)
+  find_team = team_stats.find {|team| team.fetch(:team_name) == team_name}
+  find_team[:players].collect {|player| player[:number]}
+end
+
+def player_stats(test_name)
+find_player = players_data.find {|player| player.fetch(:player_name) == test_name}
+find_player
+end
+
+def big_shoe_rebounds
+    biggest_shoe = players_data.max_by {|player_shoe| player_shoe.fetch(:shoe)}
+    biggest_shoe[:rebounds]
+end
