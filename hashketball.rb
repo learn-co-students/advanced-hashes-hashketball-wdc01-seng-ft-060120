@@ -1,3 +1,4 @@
+require 'pry'
 # Write your code below game_hash
 def game_hash
   {
@@ -126,4 +127,93 @@ def game_hash
   }
 end
 
-# Write code here
+
+
+
+
+
+def num_points_scored(player_search)
+  game_hash.each do |team, data|
+    data[:players].each do |player|
+      if player[:player_name] == player_search
+        return player[:points]
+       
+    end
+    end
+  end
+end
+
+def shoe_size(player_name)
+  game_hash.each  do |team, data|
+    data[:players].each do |player|
+      if player[:player_name] == player_name
+        return player [:shoe]
+      
+        end
+      end
+end
+end
+
+def team_colors(team_name)
+  game_hash.each  do |location, team_data|
+       if team_data[:team_name] == team_name
+        return game_hash[location][:colors]
+     end
+  end
+end
+ # returns an Array of that team's colors.
+
+
+def team_names
+  both_teams = []
+  game_hash.each  do |team, data|
+     both_teams << data[:team_name] 
+  end
+  both_teams 
+end
+  #that operates on the game Hash to return an Array of the team names.
+
+ 
+
+
+def player_numbers(team_name)
+   jersey_numbers = []
+    game_hash.each  do |team, data|
+      if data[:team_name] == team_name
+        data[:players].each   do |player|
+          jersey_numbers << player[:number]
+        end 
+      end
+    end
+    jersey_numbers
+    end
+   #that takes in an argument of a team name and returns an Array of the jersey numbers for that team.
+
+
+def player_stats(players_name)
+  game_hash.each  do |team, data|
+    data[:players].each   do |player|
+     if player[:player_name] == players_name
+      return player
+        end
+      end
+   end
+end
+ #takes in an argument of a player's name and returns a hash of that player's stats.
+
+def big_shoe_rebounds
+  big_shoe = 0
+  rebounds = 0
+  game_hash.each  do |team, data|
+    data[:players].each   do |player|
+      if player[:shoe] > big_shoe 
+        big_shoe = player[:shoe]
+        rebounds = player[:rebounds]
+       # binding.pry
+      end
+      
+    end
+
+  end
+  return rebounds  
+end
