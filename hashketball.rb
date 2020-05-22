@@ -1,4 +1,6 @@
 # Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -126,4 +128,87 @@ def game_hash
   }
 end
 
-# Write code here
+def num_points_scored(player_name)
+  game_hash.each do |home_or_away, team_data|
+    team_data[:players].each do |player|
+      if player_name == player[:player_name]
+        return player[:points]
+      end 
+    end 
+  end 
+end 
+
+def shoe_size(player_name)
+  game_hash.each do |home_or_away, team_data|
+    team_data[:players].each do |player| 
+      if player_name == player[:player_name]
+        return player[:shoe]
+      end 
+    end 
+  end 
+end
+
+def team_colors(team_name)
+  game_hash.each do |home_or_away, team_data|
+    team_data.each do |main_key, key_data|
+     if key_data == team_name
+       return team_data[:colors]
+     end 
+    end 
+  end
+end
+
+def team_names
+  team_names_out = [ ]
+  game_hash.each do |home_or_away, team_data|
+    team_names_out << team_data[:team_name]
+  end 
+  team_names_out
+end
+
+def player_numbers(team_name)
+  jersey_numbers = [ ]
+  game_hash.each do |home_or_away, team_data|
+    team_data.each do |main_key, key_data|
+      if team_name == key_data
+        team_data[:players].map do |player_data|
+          jersey_numbers << player_data[:number]
+        end
+      end
+    end 
+  end
+  jersey_numbers 
+end
+  
+  
+def player_stats(player_name)
+player_stat_out = { }
+  game_hash.each do |home_or_away, team_data|
+   team_data[:players].each do |player|
+      if player_name == player[:player_name]
+        player_stat_out.merge!(player)
+      end
+    end
+  end
+  player_stat_out
+end
+
+
+def big_shoe_rebounds
+  max_shoe = nil
+  output = 0 
+  game_hash.each do |home_or_away, team_data|
+    team_data[:players].each do |player|
+      
+      if max_shoe == nil
+        max_shoe = player[:shoe]
+      else 
+        if max_shoe < player[:shoe] 
+          max_shoe = player[:shoe]
+          output = player[:rebounds]
+        end
+      end
+    end
+  end
+  output
+end
