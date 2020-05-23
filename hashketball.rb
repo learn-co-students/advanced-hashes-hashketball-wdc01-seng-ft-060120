@@ -1,3 +1,4 @@
+require 'pry'
 # Write your code below game_hash
 def game_hash
   {
@@ -126,4 +127,83 @@ def game_hash
   }
 end
 
-# Write code here
+# Creates an Array of all players in the game
+def all_players
+  game_hash[:home][:players].concat(game_hash[:away][:players])
+end
+
+def num_points_scored(name)
+  players = all_players()
+  
+  
+  players.each do |players_info|
+    if players_info[:player_name] == name
+      return players_info[:points]
+    end
+  end
+end
+
+def shoe_size(name)
+  players = all_players()
+  
+  players.each do |players_info|
+    if players_info[:player_name] == name
+      return players_info[:shoe]
+    end
+  end
+  
+end
+
+def team_colors(team)
+  
+  if game_hash[:home][:team_name] == team
+    return game_hash[:home][:colors]
+  elsif game_hash[:away][:team_name] == team
+    return game_hash[:away][:colors]
+  else
+    p "Error: Team not found"
+  end
+end
+
+def team_names
+  [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers(team)
+  if team == game_hash[:home][:team_name]
+    venue = :home
+  elsif team == game_hash[:away][:team_name]
+    venue = :away
+  else
+    p 'Error: Venue does not match the records'
+  end
+  
+  array = game_hash[venue][:players].map do |element|
+    element[:number]
+  end
+end
+
+def player_stats(name)
+  players = all_players()
+  
+  players.each do |players_info|
+    if players_info[:player_name] == name
+      return players_info
+    end
+  end
+end
+
+def big_shoe_rebounds
+  players = all_players()
+  player_index = 0
+  shoe_size = 0
+  
+  players.each do |player_info|
+    if player_info[:shoe] > shoe_size
+      shoe_size = player_info[:shoe]
+      player_index = players.index(player_info)
+    end
+  end
+  
+  players[player_index][:rebounds]
+end
