@@ -1,3 +1,4 @@
+require 'pry'
 # Write your code below game_hash
 def game_hash
   {
@@ -125,5 +126,193 @@ def game_hash
     }
   }
 end
+
+def num_points_scored(player)
+ hash = game_hash()
+ stats_hash = {}
+ output = ""
+ 
+   hash.each do |status, data|
+   data.each do |element, key| 
+    if element == :players
+     key.each do 
+       count = 0
+       while count < key.length do
+        if key[count][:player_name] == player
+          output = key[count][:points]
+        end
+        count += 1
+       end
+     end
+    end
+   
+end
+end
+output
+end
+
+def shoe_size(player)
+   hash = game_hash()
+   stats_hash = {}
+   output = ""
+ 
+   hash.each do |status, data|
+   data.each do |element, key| 
+    if element == :players
+     key.each do 
+       count = 0
+       while count < key.length do
+        if key[count][:player_name] == player
+          output = key[count][:shoe]
+        end
+        count += 1
+       end
+     end
+    end
+   
+end
+end
+output
+
+end
+
+def team_colors (team)
+ hash = game_hash()
+   stats_hash = {}
+   output = ""
+ 
+   hash.each do |status, data|
+   data.each do |element, key|
+   
+    if data[:team_name] == team
+      output = data[:colors]
+    end
+   
+end
+end
+output
+
+end
+
+def team_names 
+   hash = game_hash()
+   output = []
+  output << hash[:home][:team_name]
+  output << hash[:away][:team_name]
+end 
+
+def player_numbers(team)
+  hash = game_hash()
+  output = []
+  new_hash = ""
+  
+  
+ if hash[:away][:team_name] == team
+   hash.each do |status, data|
+   data.each do |element, key|
+     if data[:team_name] == team
+       if element == :players
+       new_hash = key
+       end
+     end
+   end
+   end
+ end
+ 
+ if hash[:home][:team_name] == team
+   hash.each do |status, data|
+   data.each do |element, key|
+     if data[:team_name] == team 
+       if element == :players  
+       new_hash = key
+       end
+     end
+   end
+   end
+ end
+ 
+  
+  count = 0
+  while count < new_hash.length do
+      output << new_hash[count][:number]
+      count += 1
+    end
+  output
+end
+
+def player_stats(player)
+  hash = game_hash()
+  stats_hash = {}
+  output = ""
+ 
+   hash.each do |status, data|
+   data.each do |element, key| 
+    if element == :players
+     key.each do 
+       count = 0
+       while count < key.length do
+        if key[count][:player_name] == player
+          output = key[count]
+        end
+        count += 1
+       end
+     end
+    end
+  
+end
+end
+output
+  
+  
+end
+
+
+def big_shoe_rebounds
+  hash = game_hash()
+  stats_hash = {}
+  output = ""
+  shoesize = 0
+ 
+   hash.each do |status, data|
+   data.each do |element, key| 
+    if element == :players
+     key.each do 
+       count = 0
+        
+       while count < key.length do
+        if key[count][:shoe] > shoesize
+          shoesize = key[count][:shoe]
+        end
+        count += 1
+       end
+     end
+    end
+  
+end
+end
+
+   hash.each do |status, data|
+   data.each do |element, key| 
+    if element == :players
+     key.each do 
+       count = 0
+       while count < key.length do
+        if key[count][:shoe] == shoesize
+          output = key[count][:rebounds]
+        end
+        count += 1
+       end
+     end
+    end
+   
+end
+end
+
+
+output
+  
+end
+
+
 
 # Write code here
