@@ -1,4 +1,5 @@
 # Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -127,3 +128,118 @@ def game_hash
 end
 
 # Write code here
+
+def num_points_scored(player_names)
+  score = 0
+ game_hash.each do |h_a, team_stats|
+   team_stats[:players].each do |inner_stats|
+     inner_stats.each do |stat_name, value|
+       if player_names == value
+         score = inner_stats[:points]
+         break
+       end
+       #binding.pry
+     end
+     #binding.pry
+   end
+   #binding.pry
+ end
+ score
+ #binding.pry
+end
+
+def shoe_size(player_names)
+  ss = 0
+ game_hash.each do |h_a, team_stats|
+   team_stats[:players].each do |inner_stats|
+     inner_stats.each do |stat_name, value|
+       if player_names == value
+         ss = inner_stats[:shoe]
+         break
+       end
+       #binding.pry
+     end
+     #binding.pry
+   end
+   #binding.pry
+ end
+ ss
+ #binding.pry
+end
+
+def team_colors(team_name)
+  tc = nil
+  game_hash.each do |h_a, team_stats|
+    team_stats.each do |rep, inner_stats|
+      if team_name == inner_stats
+        tc = team_stats[:colors]
+      end
+      #binding.pry
+    end
+    #binding.pry
+  end
+  tc
+  #binding.pry
+end
+
+def team_names
+  array = []
+  game_hash.each do |h_a, team_stats|
+    array << team_stats[:team_name]
+  end
+  array
+  #binding.pry
+end
+
+def player_numbers(team_name)
+  array = []
+  game_hash.each do |h_a,team_stats|
+    if team_name == team_stats[:team_name]
+    team_stats[:players].each do |inner_stats|
+      array << inner_stats[:number]
+    #inding.pry
+    end
+  end
+  end
+  array
+#binding.pry
+end
+
+def player_stats(player_name)
+  ps = nil
+  game_hash.each do |h_a, team_stats|
+    team_stats[:players].each do |inner_stats|
+      inner_stats.each do |stat_name, value|
+        if player_name == value
+           #inner_stats.delete(:player_name)
+            return inner_stats
+        end
+        
+        #binding.pry
+      end
+     # binding.pry
+    end
+    #binding.pry
+  end
+  ps
+  #binding.pry
+end
+
+def big_shoe_rebounds
+  array = []
+  rb = nil
+  game_hash.each do |h_a,team_stats|
+    team_stats[:players].each do |inner_stats|
+      array << inner_stats[:shoe]
+      if inner_stats[:shoe] == array.max
+        rb = inner_stats[:rebounds]
+        
+      end
+    #binding.pry
+    end
+  end
+  array 
+  rb
+  #binding.pry
+end
+
