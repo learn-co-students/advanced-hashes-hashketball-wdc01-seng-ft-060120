@@ -1,6 +1,5 @@
 # Write your code below game_hash
 require 'pry'
-
 def game_hash
   {
     home: {
@@ -128,144 +127,66 @@ def game_hash
   }
 end
 
-def num_points_scored (player_name)
-  game_hash
-  game_hash.each do |team, team_info|
-    team_info.each do |team_level, info|
-      if info.class == Array
-        if info[0].class == Hash
-          info.each do |player, stats|
-            if player[:player_name] == player_name
-              return player[:points]
-            end
-          end
-        end
-      end
-    end
-  end 
-end
-
-def shoe_size (player_name)
-  game_hash
-  game_hash.each do |team, team_info|
-    team_info.each do |team_level, info|
-      if info.class == Array
-        if info[0].class == Hash
-          info.each do |player, stats|
-            if player[:player_name] == player_name
-              return player[:shoe]
-            end
-          end
-        end
-      end
-    end
-  end 
-end
-
-def team_colors (team_name)
-  game_hash
-  game_hash.each do |team, team_info|
-    if team_info[:team_name] == team_name
-      return team_info[:colors]
-    end
-  end
-end
-
-def team_names
-  team_names_array = []
-  game_hash
-  game_hash.each do |team, team_info|
-    team_names_array << team_info[:team_name]
-  end
-  team_names_array
-end
-
-def player_numbers (team_name)
-  player_numbers_array = []
-  game_hash
-  game_hash.each do |team, team_info|
-    if team_info[:team_name] == team_name
-      team_info[:players].each do |player_hash|
-        player_numbers_array << player_hash[:number]
-      end
-    end
-  end
-  player_numbers_array
+def all_players
+  game_hash[:home][:players] + game_hash[:away][:players]
 end
 
 def player_stats (player_name)
-game_hash
-  game_hash.each do |team, team_info|
-    team_info.each do |team_level, info|
-      if info.class == Array
-        if info[0].class == Hash
-          info.each do |player, stats|
-            if player[:player_name] == player_name
-              return player
-            end
-          end
-        end
-      end
-    end
-  end 
+  all_players.find{|player| player[:player_name] == player_name}
 end
 
-#def find_big_shoe
-#  big_shoe = 0 
-#  big_shoe_baller = ""
-#  game_hash
-#  game_hash.each do |team, team_info|
-#    team_info.each do |team_level, info|
-#      if info.class == Array
-#        if info[0].class == Hash
-#          info.each do |player, stats|
-#            binding.pry
-#          end
-#        end
-#      end
-#    end
-#  end 
-#end
+def num_points_scored (player_name)
+  player_stats(player_name)[:points]
+end
 
-def big_shoe_baller
-big_shoe = 0
-big_shoe_baller = ""
-game_hash
-  game_hash.each do |team, team_info|
-    team_info.each do |team_level, info|
-      if info.class == Array
-        if info[0].class == Hash
-          info.each do |player, stats|
-            if player[:shoe] > big_shoe 
-              big_shoe = player[:shoe]
-              big_shoe_baller = player[:player_name]
-            end
-          end
-        end
-      end
-    end
-  end 
-big_shoe_baller
-end  
+def shoe_size (player_name)
+  player_stats(player_name)[:shoe]
+end
 
-def rebounds (player_name)
-game_hash
-  game_hash.each do |team, team_info|
-    team_info.each do |team_level, info|
-      if info.class == Array
-        if info[0].class == Hash
-          info.each do |player, stats|
-            if player[:player_name] == player_name
-              return player[:rebounds]
-            end
-          end
-        end
-      end
-    end
-  end 
+def find_team(team_name)
+  game_hash[:home][:team_name] == team_name ? game_hash[:home] : game_hash[:away]
+end
+
+def team_colors (team_name)
+  find_team(team_name)[:colors]
+end
+
+def team_names
+  [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers (team_name)
+  find_team(team_name)[:players].map{|player| player[:number]}
+end
+
+def leader(stat)
+  all_players.sort_by{|player| player[stat.to_sym]}.last
 end
 
 def big_shoe_rebounds
-  big_shoe_baller
-  rebounds (big_shoe_baller)
+  leader("shoe")[:rebounds]
+end
+
+def most_points_scored
+  leader("points")
+end
+
+def player_with_longest_name
+  all_players.sort_by{|player| player[:player_name].length}.last
+end
+
+def most_steals
+  leader("steals")
+end
+
+def long_name_steals_a_ton
+  puts player_with_longest_name == most_steals
+end
+
+def team_points(team_hash)
+  team_hash[:players].reduce(0){|sum, player| sum + player[:points]}
+end
+
+def winning_team
+  return team_points(game_hash[:home]) > team_points(game_hash[:away]) ? game_hash[:home][:team_name] : game_hash[:away][:team_name]
 end
