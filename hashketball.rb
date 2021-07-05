@@ -1,4 +1,6 @@
 # Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -127,3 +129,97 @@ def game_hash
 end
 
 # Write code here
+def num_points_scored(players_name)
+  game_hash.each do |key, value|
+    # binding.pry
+    value[:players].each do |player|
+      # binding.pry
+      if player[:player_name] == players_name
+        return player[:points]
+      end
+    end
+  end
+end
+
+def shoe_size(players_name)
+  game_hash.each do |key, value|
+  # binding.pry
+    value[:players].each do |player|
+      # binding.pry
+      if player[:player_name] == players_name
+        return player[:shoe]
+      end
+    end
+  end
+end
+
+def team_colors(team_name)
+  game_hash.each do |key, value|
+    # binding.pry
+    if value[:team_name] == team_name
+      return value[:colors]
+    end
+  end
+end
+
+def team_names
+  game_hash.map do |key, value|
+    #binding.pry
+    value[:team_name]
+  end
+end
+
+
+def player_numbers(team_name)
+  
+  team_number_array = []
+  
+  game_hash.each do |key, value|
+    #binding.pry
+    if value[:team_name] == team_name
+      value.each do |inner_key, inner_value|
+      #binding.pry
+        if inner_key == :players
+          inner_value.each do |team_player_number|
+          team_number_array.push(team_player_number[:number])    
+          end
+        end
+      end
+    end
+  end
+  return team_number_array
+end
+
+
+def player_stats(players_name)
+  game_hash.each do |key, value|
+    #binding.pry
+    value.each do |inner_key, inner_value|
+      #binding.pry
+      if inner_key == :players
+        inner_value.each do |player|
+        #binding.pry
+          if player[:player_name] == players_name
+          return player
+          end
+        end    
+      end
+    end
+  end
+end  
+
+def big_shoe_rebounds
+  big_shoe = 0
+  rebounds = 0
+  game_hash.each do |key, value|
+    # binding.pry
+    value[:players].each do |inner_value|
+    # binding.pry
+      if inner_value[:shoe] > big_shoe
+        big_shoe = inner_value[:shoe] 
+        rebounds = inner_value[:rebounds] 
+      end
+    end
+  end
+  return rebounds
+end
