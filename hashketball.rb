@@ -1,4 +1,4 @@
-# Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -125,5 +125,88 @@ def game_hash
     }
   }
 end
+def num_points_scored(player)
+  game_hash.each{|spot, team| 
+    team[:players].each{|player_hash|
+      if (player_hash[:player_name] == player)
+          return player_hash[:points]
+    end
+    }
+  }
+end
+def shoe_size(players_name)
+  game_hash.each{|spot, team|
+  team[:players].each {|player_info|
+  if player_info[:player_name] ==  players_name
+    return player_info[:shoe]
+  end
+  }  }
+end
+def team_colors(teams_name)
+  game_hash.each{|spot, team|
+    if team[:team_name] == teams_name 
+      return team[:colors]
+    end
+  }
+end
 
-# Write code here
+
+def team_names
+  game_hash.collect{|spot,team|
+  team[:team_name]
+  }
+end
+
+def player_numbers(teams_name)
+num =[]
+
+  game_hash.each {|spot, team_hash|
+    if team_hash[:team_name] == teams_name
+      team_hash[:players].each {|pd|
+        num << pd[:number]
+      }
+    end
+  }
+  num
+end
+def player_stats(players_name)
+  stats = {}
+  game_hash.each {|spot, team|
+    team[:players].each {|player_hash|
+    if player_hash[:player_name] == players_name
+      player_hash.each {|category, data|
+        if category != :player_name
+          stats[category] = data
+        end 
+      }
+    end 
+    
+    }
+  }
+  
+  stats.merge(:player_name => players_name)
+  
+  
+end
+
+
+
+
+  def big_shoe_rebounds
+    bf = 0 
+    game_hash.each{|spot, team|
+    team[:players].each {|ph|
+    if ph[:shoe] >= bf
+      bf = ph[:shoe]
+    end
+    }}
+  game_hash.each {|place, team|
+    team[:players].each {|ph|
+    if ph[:shoe] == bf
+      return ph[:rebounds]
+    end
+    }
+  }
+end
+  
+ 
