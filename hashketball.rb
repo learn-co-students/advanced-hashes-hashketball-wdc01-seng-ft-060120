@@ -1,4 +1,5 @@
 # Write your code below game_hash
+require 'pry'
 def game_hash
   {
     home: {
@@ -126,4 +127,66 @@ def game_hash
   }
 end
 
-# Write code here
+def all_players
+  game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+def player_stats (player_name)
+  all_players.find{|player| player[:player_name] == player_name}
+end
+
+def num_points_scored (player_name)
+  player_stats(player_name)[:points]
+end
+
+def shoe_size (player_name)
+  player_stats(player_name)[:shoe]
+end
+
+def find_team(team_name)
+  game_hash[:home][:team_name] == team_name ? game_hash[:home] : game_hash[:away]
+end
+
+def team_colors (team_name)
+  find_team(team_name)[:colors]
+end
+
+def team_names
+  [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers (team_name)
+  find_team(team_name)[:players].map{|player| player[:number]}
+end
+
+def leader(stat)
+  all_players.sort_by{|player| player[stat.to_sym]}.last
+end
+
+def big_shoe_rebounds
+  leader("shoe")[:rebounds]
+end
+
+def most_points_scored
+  leader("points")
+end
+
+def player_with_longest_name
+  all_players.sort_by{|player| player[:player_name].length}.last
+end
+
+def most_steals
+  leader("steals")
+end
+
+def long_name_steals_a_ton
+  puts player_with_longest_name == most_steals
+end
+
+def team_points(team_hash)
+  team_hash[:players].reduce(0){|sum, player| sum + player[:points]}
+end
+
+def winning_team
+  return team_points(game_hash[:home]) > team_points(game_hash[:away]) ? game_hash[:home][:team_name] : game_hash[:away][:team_name]
+end
