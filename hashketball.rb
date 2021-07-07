@@ -1,4 +1,6 @@
 # Write your code below game_hash
+require "pry"
+
 def game_hash
   {
     home: {
@@ -127,3 +129,124 @@ def game_hash
 end
 
 # Write code here
+# Build a method, `num_points_scored` that takes in an argument of a player's name and returns the number of points scored for that player
+
+
+
+def team team_name
+    case team_name
+  when game_hash[:home][:team_name]
+    game_hash[:home]
+  when game_hash[:away][:team_name]
+    game_hash[:away]
+  end
+end
+
+
+def num_points_scored(player_name)
+ game_hash.each do |key, value|
+    value[:players].each do |player_1|
+  if player_name == player_1[:player_name]
+    return player_1[:points]
+    end
+    end
+  end
+end
+
+
+def shoe_size(player_name)
+   game_hash.each do |key, value|
+    value[:players].each do |player_1|
+  if player_name == player_1[:player_name]
+    return player_1[:shoe]
+    end
+    end
+  end
+end
+ 
+
+
+def team_colors(team_name)
+   case team_name
+   when game_hash[:home][:team_name]
+     game_hash[:home][:colors]
+   when game_hash[:away][:team_name]
+     game_hash[:away][:colors]
+   end
+ end
+# or
+
+#def team_colors(team_name)
+#  team(team_name)[:colors]
+#end
+
+
+
+def team_names
+  [game_hash[:home][:team_name],game_hash[:away][:team_name]]
+end
+
+
+def player_stats(player_name)
+ game_hash.each do |key, value|
+    value[:players].each do |team_1|
+    if player_name == team_1[:player_name]
+  return team_1
+    end
+    end
+  end
+end
+
+
+
+def player_numbers(team_name)
+  team(team_name)[:players].map do |key|
+    key[:number]
+  end
+end
+ 
+ 
+
+# Build a method, `big_shoe_rebounds`, that will return the number of rebounds associated with the player that has the largest shoe size. Break this one down into steps:
+
+# def big_shoe_rebounds(player_name)
+#   game_hash.each do |key, value|
+#     value[:players].each do 
+#   big_shoe = game_hash[:home][:players][:shoe].merge([:away][:players][:shoe])
+#   count = 0
+#   largest_shoe_size = -1
+#   while count < big_shoe.length do
+#     if largest_shoe_size < big_shoe[count]
+#       largest_shoe_size = big_shoe[count]
+#       return value[:players]
+#     end
+#     count += 1
+#   end
+# end
+# end
+# end
+
+
+  # * First, find the player with the largest shoe size
+  # * Then, return that player's number of rebounds
+  # * Remember to think about return values here.
+
+
+def big_shoe_rebounds
+  
+  big_shoe = 0
+  rebounds = 0
+  
+  game_hash.each do |key, value|
+   
+    value[:players].each do |player|
+  
+    if big_shoe < player[:shoe]
+     rebounds = player[:rebounds]
+     big_shoe = player[:shoe]
+     
+    end
+  end
+ end
+ return rebounds
+end
